@@ -22,22 +22,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const formSchema = z.object({
-  email: z.string().min(2).max(50),
-  password: z.string().min(2).max(50),
-});
+import { signInSchema } from "@/lib/schemas";
 
 const SignIn = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof signInSchema>) {
     console.log(values);
   }
 
@@ -82,7 +78,9 @@ const SignIn = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-full">
+              Submit
+            </Button>
           </form>
         </Form>
       </CardContent>
