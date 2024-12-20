@@ -24,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
   email: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
@@ -33,7 +32,6 @@ const SignIn = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -56,26 +54,10 @@ const SignIn = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="user name" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Your email" {...field} />
                   </FormControl>
@@ -95,9 +77,7 @@ const SignIn = () => {
                   <FormControl>
                     <Input type="password" placeholder="***" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Choose a password for your account
-                  </FormDescription>
+                  <FormDescription>Enter for your password</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
