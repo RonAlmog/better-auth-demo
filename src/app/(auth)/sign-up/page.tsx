@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schemas";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -34,7 +36,29 @@ const SignUp = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const { name, email, password } = values;
+    const { data, error } = await authClient.signUp.email(
+      {
+        email,
+        password,
+        name,
+        callbackURL: "/sign-in",
+      },
+      {
+        onRequest: (ctx) => {
+          // show loading
+        },
+        onSuccess: (ctx) => {
+          // redirect to dashboard
+          toast.success("Logged in!");
+        },
+        onError: (ctx) => {
+          // give warning
+          toast.error("Error!");
+        },
+      }
+    );
     console.log(values);
   }
 
