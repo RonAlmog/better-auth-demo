@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+# "better-auth": "^1.0.22",
+
 First, run the development server:
 
 ```bash

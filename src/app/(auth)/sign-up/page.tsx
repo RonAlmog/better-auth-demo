@@ -24,7 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schemas";
 import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
+import { redirect } from "next/navigation";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -46,16 +47,23 @@ const SignUp = () => {
         callbackURL: "/sign-in",
       },
       {
-        onRequest: (ctx) => {
-          // show loading
+        onRequest: () => {
+          toast({
+            title: "Please wait...",
+          });
         },
-        onSuccess: (ctx) => {
+        onSuccess: () => {
           // redirect to dashboard
-          toast.success("Logged in!");
+          form.reset();
+          toast({ title: "Logged in!", variant: "default" });
+          redirect("/dashboard");
         },
         onError: (ctx) => {
-          // give warning
-          toast.error("Error!");
+          toast({ title: ctx.error.message, variant: "destructive" });
+          form.setError("email", {
+            type: "manual",
+            message: ctx.error.message,
+          });
         },
       }
     );
